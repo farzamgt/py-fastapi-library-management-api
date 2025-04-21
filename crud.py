@@ -36,9 +36,10 @@ def get_books_by_author(db: Session, author_id: int):
     return db.query(models.Book).filter(models.Book.author_id == author_id).all()
 
 
-def delete_book(db: Session, book_id: int):
-    book = db.query(models.Book).filter(models.Book.id == book_id).first()
+def delete_book(db: Session, book_id: int, author_id: int):
+    book = db.query(models.Book).filter(models.Book.id == book_id, models.Book.author_id == author_id).first()
     if book:
         db.delete(book)
         db.commit()
-    return book
+        return book
+    return None

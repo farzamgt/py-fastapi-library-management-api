@@ -52,7 +52,7 @@ def read_books_by_author(author_id: int, db: Session = Depends(get_db)):
 
 @app.delete("/authors/{author_id}/books/{book_id}", response_model=schemas.Book)
 def delete_book(author_id: int, book_id: int, db: Session = Depends(get_db)):
-    book = crud.delete_book(db=db, book_id=book_id)
+    book = crud.delete_book(db=db, book_id=book_id, author_id=author_id)
     if book is None:
-        raise HTTPException(status_code=404, detail="Book not found")
+        raise HTTPException(status_code=404, detail="Book not found or does not belong to the specified author")
     return book
